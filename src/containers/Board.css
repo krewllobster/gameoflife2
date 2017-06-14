@@ -1,0 +1,26 @@
+.board-container {
+  height: 475px;
+  margin: auto;
+  padding: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.board {
+  margin: auto;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.cell {
+  border: 1px solid #e3e3e3;
+  float: left;
+}
+
+.cell.cell-alive-true {
+  background-color: black;
+}
+
+.cell.cell-alive-false {
+  background-color: white;
+}
