@@ -1,18 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { changeSize } from '../actions';
+import { changeSize, changeSpeed } from '../actions';
 import { Menu } from 'semantic-ui-react';
 
 let BotMenu = ({
   height,
   width,
   size,
+  duration,
+  changeSpeed,
   changeSize,
 }) => {
   let w = width;
   let h = height;
   return (
-    <Menu stackable widths={2}>
+    <Menu stackable widths={3}>
       <Menu.Item
         name='heightControl'
       >
@@ -41,6 +43,20 @@ let BotMenu = ({
         />
         <span>{width}</span>
       </Menu.Item>
+      <Menu.Item
+        name='speedControl'
+      >
+        <input
+          id = 'speed'
+          disabled
+          type='range'
+          min='200'
+          max='3000'
+          defaultValue={duration}
+          onChange={(e) => changeSpeed(e.target.value)}
+        />
+        <span>{(duration/1000).toFixed(2)} second(s)</span>
+      </Menu.Item>
     </Menu>
   )
 }
@@ -49,10 +65,12 @@ const mapStateToProps = (state, ownProps) => ({
   height: state.height,
   width: state.width,
   size: state.cellSize,
+  duration: state.duration,
 })
 
 const mapDispatchToProps = ({
   changeSize: changeSize,
+  changeSpeed: changeSpeed,
 })
 
 const ConnectedBotMenu = connect(mapStateToProps, mapDispatchToProps)(BotMenu)

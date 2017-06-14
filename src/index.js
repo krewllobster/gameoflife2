@@ -8,20 +8,26 @@ import { App } from './components/App';
 import './index.css';
 import 'semantic-ui-css/semantic.min.css';
 
+const DEF_HEIGHT = 15;
+const DEF_WIDTH = 15;
+const DEF_DURATION = 500;
+const DEF_SIZE = 15;
+
 const game = {
-  height: 10,
-  width: 10,
+  height: DEF_HEIGHT,
+  width: DEF_WIDTH,
   running: false,
+  duration: DEF_DURATION,
   cells: {},
   gen: 0,
-  cellSize: 15,
+  cellSize: DEF_SIZE,
 }
 const cID = (a,b) => `${a}:${b}`
-for (let i = 0; i < 10; i ++ ) {
-  for (let j = 0; j < 10; j ++ ) {
+for (let i = 0; i < DEF_HEIGHT; i ++ ) {
+  for (let j = 0; j < DEF_WIDTH; j ++ ) {
     let id = `${i}:${j}`;
     let newCell = {
-      alive: false,
+      alive: Math.random() >= .8,
       xpos: j,
       ypos: i,
       nsum: 0,
@@ -39,6 +45,18 @@ for (let i = 0; i < 10; i ++ ) {
     game.cells[id] = newCell;
   }
 }
+
+Object.keys(game.cells).forEach(id => {
+  let cell = game.cells[id];
+  if (cell.alive) {
+    cell.neighbors.forEach(cellId => {
+      let nCell = game.cells[cellId];
+      if (nCell) {
+        game.cells[cellId] = {...nCell, nsum: nCell.nsum + 1}
+      }
+    })
+  }
+})
 
 const store = createStore(reducer, game, composeWithDevTools());
 

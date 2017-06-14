@@ -5,6 +5,7 @@ import {
   RESET_GAME,
   STEP_GAME,
   TOGGLE_CELL,
+  CHANGE_SPEED,
 } from '../actions';
 
 const pauseGame = (newState) => {
@@ -126,6 +127,11 @@ const game = (state, action) => {
         gen: 0,
         running: false,
       };
+    case CHANGE_SPEED:
+      return {
+        ...state,
+        duration: action.duration,
+      }
     case TOGGLE_CELL:
       let newCells = toggleCell({
         cells: {...state.cells},

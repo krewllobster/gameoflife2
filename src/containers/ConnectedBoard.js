@@ -23,7 +23,6 @@ let Board = ({
     color: 'red',
   }
   return (
-    <div className="board-container">
       <div className="board" style={boardStyle}>
         {Object.keys(cells).map(cellID => {
           let cell = cells[cellID];
@@ -37,12 +36,10 @@ let Board = ({
                 if (!running) {toggleCell(e.target.id)}
               }}
             >
-              {cell.nsum}
             </div>
           )}
         )}
       </div>
-    </div>
   )
 }
 
