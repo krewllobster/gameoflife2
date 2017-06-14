@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Menu } from 'semantic-ui-react';
 
-
-
 class TopMenu extends Component {
   constructor(props) {
     super(props);

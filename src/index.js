@@ -2,7 +2,6 @@ import React from 'react';
 import { render } from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import reducer from './reducers';
 import { App } from './components/App';
 import './index.css';
@@ -58,7 +57,7 @@ Object.keys(game.cells).forEach(id => {
   }
 })
 
-const store = createStore(reducer, game, composeWithDevTools());
+const store = createStore(reducer, game);
 
 render(
   <Provider store={store}>
