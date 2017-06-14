@@ -9,11 +9,35 @@ import './index.css';
 import 'semantic-ui-css/semantic.min.css';
 
 const game = {
-  height: 150,
-  width: 150,
+  height: 10,
+  width: 10,
   running: false,
-  cells: [],
+  cells: {},
   gen: 0,
+  cellSize: 15,
+}
+const cID = (a,b) => `${a}:${b}`
+for (let i = 0; i < 10; i ++ ) {
+  for (let j = 0; j < 10; j ++ ) {
+    let id = `${i}:${j}`;
+    let newCell = {
+      alive: false,
+      xpos: j,
+      ypos: i,
+      nsum: 0,
+      neighbors: [
+        cID(i-1,j-1),
+        cID(i,j-1),
+        cID(i+1,j-1),
+        cID(i-1, j),
+        cID(i+1, j),
+        cID(i-1, j+1),
+        cID(i, j+1),
+        cID(i+1, j+1)
+      ]
+    }
+    game.cells[id] = newCell;
+  }
 }
 
 const store = createStore(reducer, game, composeWithDevTools());
