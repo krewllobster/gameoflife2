@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { toggleCell } from '../actions';
-import { Container } from 'semantic-ui-react';
 import './Board.css';
 
 const Board = ({

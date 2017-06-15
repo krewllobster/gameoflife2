@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { start, pause, stepGame, reset, setRandom } from '../actions';
 import TopMenu from '../components/TopMenu'

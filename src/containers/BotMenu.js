@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { pause, changeHeight, changeWidth, changeSpeed } from '../actions';
+import { changeHeight, changeWidth, changeSpeed } from '../actions';
 import { Menu } from 'semantic-ui-react';
 
 class BotMenu extends Component {
@@ -17,16 +17,11 @@ class BotMenu extends Component {
     const {
       height,
       width,
-      size,
       duration,
       changeSpeed,
       changeHeight,
       changeWidth,
-      pause,
     } = this.props;
-
-    const w = width;
-    const h = height;
 
     return (
       <Menu stackable widths={3}>
@@ -90,7 +85,6 @@ const mapDispatchToProps = ({
   changeHeight: changeHeight,
   changeWidth: changeWidth,
   changeSpeed: changeSpeed,
-  pause: pause,
 })
 
 export default connect(
