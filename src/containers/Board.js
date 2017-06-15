@@ -13,7 +13,7 @@ const Board = ({
   running,
 }) => {
   const boardStyle = {
-    height: height*size,
+    height: '500px',
     width: width*size,
     margin: 'auto',
   }

@@ -9,7 +9,7 @@ import 'semantic-ui-css/semantic.min.css';
 
 const DEF_HEIGHT = 15;
 const DEF_WIDTH = 15;
-const DEF_DURATION = 500;
+const DEF_DURATION = 200;
 const DEF_SIZE = 15;
 
 const game = {
@@ -26,7 +26,7 @@ for (let i = 0; i < DEF_HEIGHT; i ++ ) {
   for (let j = 0; j < DEF_WIDTH; j ++ ) {
     let id = `${i}:${j}`;
     let newCell = {
-      alive: Math.random() >= .8,
+      alive: Math.random() >= .7,
       xpos: j,
       ypos: i,
       nsum: 0,

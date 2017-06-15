@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { start, pause, stepGame, reset } from '../actions';
-import { Menu } from 'semantic-ui-react';
+import { start, pause, stepGame, reset, setRandom } from '../actions';
 import TopMenu from '../components/TopMenu'
 
 const mapStateToProps = (state, ownProps) => ({
@@ -15,6 +14,7 @@ const mapDispatchToProps = ({
   pause: pause,
   stepGame: stepGame,
   reset: reset,
+  setRandom: setRandom,
 })
 
 const ConnectedTopMenu = connect(mapStateToProps, mapDispatchToProps)(TopMenu)

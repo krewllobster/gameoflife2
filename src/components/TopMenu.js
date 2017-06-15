@@ -38,13 +38,14 @@ class TopMenu extends Component {
   render() {
     const {
       stepGame,
+      setRandom,
       reset,
       running,
       gen
     } = this.props;
 
     return (
-      <Menu stackable widths={3}>
+      <Menu stackable widths={4}>
         <Menu.Item
           name='runControl'
           onClick={() => {
@@ -69,6 +70,12 @@ class TopMenu extends Component {
             reset();
           }}
         />
+        <Menu.Item
+          name='Set Random'
+          onClick={() => setRandom()}
+        >
+          Randomize Board
+        </Menu.Item>
       </Menu>
     )
   }

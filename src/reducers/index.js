@@ -1,27 +1,20 @@
 import {
-  CHANGE_SIZE,
+  CHANGE_HEIGHT,
+  CHANGE_WIDTH,
   START_GAME,
   PAUSE_GAME,
   RESET_GAME,
   STEP_GAME,
   TOGGLE_CELL,
   CHANGE_SPEED,
+  SET_RANDOM,
 } from '../actions';
 
-const pauseGame = (newState) => {
-  newState.running = false;
-  return newState
-}
-
-const resetGame = (state) => {
-  let newCells = resetCells([...state.cells])
-  return {...state, gen: 0, cells: newCells}
-}
-
-const resetCells = (cells) => {
-  return cells.map( cell => {
-    return {...cell, alive: false, nsum: 0}
+const randomCells = (cells) => {
+  Object.keys(cells).forEach(id => {
+    cells[id] = {...cells[id], alive: Math.random() >= .7}
   })
+  return setNeighbors(cells)
 }
 
 const toggleCell = ({cells, id}) => {
@@ -36,33 +29,62 @@ const toggleCell = ({cells, id}) => {
   return {...cells}
 }
 
-const cID = (a,b) => `${a}:${b}`
+const cID = (a,b) => `${a}:${b}`;
+const createNeighbors = (r, c) => ([
+  cID(r-1,c-1),
+  cID(r,c-1),
+  cID(r+1,c-1),
+  cID(r-1, c),
+  cID(r+1, c),
+  cID(r-1, c+1),
+  cID(r, c+1),
+  cID(r+1, c+1)
+])
+const createCell = (r, c) => {
+  return {
+    alive: false,
+    xpos: c,
+    ypos: r,
+    nsum: 0,
+    neighbors: createNeighbors(r,c),
+  }
+}
 
-const redrawBoard = (h, w) => {
-  let newCells = {}
-  for (let r = 0; r < h; r++) {
-    for (let c = 0; c < w; c++) {
-      let id = `${r}:${c}`;
-      let newCell = {
-        alive: false,
-        xpos: c,
-        ypos: r,
-        nsum: 0,
-        neighbors: [
-          cID(r-1,c-1),
-          cID(r,c-1),
-          cID(r+1,c-1),
-          cID(r-1, c),
-          cID(r+1, c),
-          cID(r-1, c+1),
-          cID(r, c+1),
-          cID(r+1, c+1)
-        ]
-      }
-      newCells[id] = newCell
+const buildBoard = ({height, width}) => {
+  const newCells = {};
+  for (let r = 0; r < height; r ++) {
+    for (let c = 0; c < width; c ++) {
+      let id = cID(r, c);
+      newCells[id] = createCell(r, c);
     }
   }
   return newCells;
+}
+
+const changeSize = ({height, width}) => {
+  return buildBoard({height, width});
+}
+
+const resetBoard = (cells) => {
+  Object.keys(cells).forEach(id => {
+    cells[id] = {...cells[id], alive: false, nsum: 0}
+  })
+  return {...cells}
+}
+
+const setNeighbors = (cells) => {
+  Object.keys({...cells}).forEach(id => {
+    let cell = cells[id];
+    if (cell.alive) {
+      cell.neighbors.forEach(cellId => {
+        let nCell = cells[cellId];
+        if (nCell) {
+          cells[cellId] = {...nCell, nsum: nCell.nsum + 1}
+        }
+      })
+    }
+  })
+  return {...cells}
 }
 
 const stepGame = ({cells}) => {
@@ -77,69 +99,68 @@ const stepGame = ({cells}) => {
       newCells[id] = {...cell, nsum: 0}
     }
   });
-  Object.keys(newCells).forEach(id => {
-    let cell = newCells[id];
-    if (cell.alive) {
-      cell.neighbors.forEach(cellId => {
-        let nCell = newCells[cellId];
-        if (nCell) {
-          newCells[cellId] = {...nCell, nsum: nCell.nsum + 1}
-        }
-      })
-    }
-  })
-  return {...newCells}
+  return setNeighbors(newCells);
 }
 
 const game = (state, action) => {
-  let newState = {...state};
+  let newCells = {}
   switch (action.type) {
+    case SET_RANDOM:
+      return {
+        ...state,
+        running: false,
+        gen: 0,
+        cells: randomCells({...state.cells})}
     case START_GAME:
-      newState.running = true;
-      return newState;
+      return {...state, running: true}
     case PAUSE_GAME:
-      return pauseGame(newState);
+      return {...state, running: false}
     case RESET_GAME:
       return {
         ...state,
         gen: 0,
         running: false,
-        cells: redrawBoard(state.height, state.width),
+        cells: resetBoard(state.cells),
       };
     case STEP_GAME:
-      let stepCells = stepGame({
+      newCells = stepGame({
         cells: {...state.cells}
       });
       return {
         ...state,
         paused: true,
-        gen: {...state}.gen + 1,
-        cells: stepCells,
+        gen: state.gen + 1,
+        cells: newCells,
       };
-    case CHANGE_SIZE:
-      let h = action.height ? action.height : {...state}.height;
-      let w = action.width ? action.width : {...state}.width;
+    case CHANGE_HEIGHT:
       return {
         ...state,
-        height: h,
-        width: w,
-        cells: redrawBoard(h,w),
-        gen: 0,
         running: false,
-      };
+        gen: 0,
+        height: action.height,
+        cells: changeSize({height: action.height, width: state.width})
+      }
+    case CHANGE_WIDTH:
+      return {
+        ...state,
+        running: false,
+        gen: 0,
+        width: action.width,
+        cells: changeSize({height: state.height, width: action.width})
+      }
     case CHANGE_SPEED:
       return {
         ...state,
         duration: action.duration,
       }
     case TOGGLE_CELL:
-      let newCells = toggleCell({
+      newCells = toggleCell({
         cells: {...state.cells},
         id: action.id,
       });
       return {...state, cells: newCells};
     default:
-      return newState;
+      return state;
   }
 }
 
