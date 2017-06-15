@@ -4,7 +4,7 @@ import { toggleCell } from '../actions';
 import { Container } from 'semantic-ui-react';
 import './Board.css';
 
-let Board = ({
+const Board = ({
   height,
   width,
   size,
@@ -55,6 +55,4 @@ const mapDispatchToProps = ({
   toggleCell: toggleCell,
 })
 
-const ConnectedBoard = connect(mapStateToProps, mapDispatchToProps)(Board)
-
-export default ConnectedBoard;
+export default connect(mapStateToProps, mapDispatchToProps)(Board)
