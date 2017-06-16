@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container } from 'semantic-ui-react';
 import ConnectedTopMenu from '../containers/ConnectedTopMenu';
 import BotMenu from '../containers/BotMenu';
-import Board from '../containers/Board';
+import ConnectedBoard from '../containers/ConnectedBoard';
 import './App.css';
 
 export class App extends Component {
@@ -11,7 +11,7 @@ export class App extends Component {
     return (
       <Container fluid>
         <ConnectedTopMenu />
-        <Board />
+        <ConnectedBoard />
         <BotMenu />
       </Container>
     );

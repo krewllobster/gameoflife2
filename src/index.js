@@ -20,7 +20,6 @@ const game = {
   cells: {},
   gen: 0,
   cellSize: DEF_SIZE,
-  timer: null,
 }
 const cID = (a,b) => `${a}:${b}`
 for (let i = 0; i < DEF_HEIGHT; i ++ ) {

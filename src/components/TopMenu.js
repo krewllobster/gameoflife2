@@ -4,27 +4,50 @@ import { Menu } from 'semantic-ui-react';
 class TopMenu extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      timer: null
+    }
+
+    this.startGame = this.startGame.bind(this);
+    this.tick = this.tick.bind(this);
+    this.clearTimer = this.clearTimer.bind(this);
+    this.pauseGame = this.pauseGame.bind(this);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.running) {
-      setTimeout(this.props.stepGame(), this.props.duration)
+  componentWillUpdate(nextProps, nextState) {
+    if (this.props.running && !nextProps.running) {
+      clearInterval(nextState.timer)
+      nextState.timer = null;
+    }
+    if (!this.props.running && nextProps.running) {
+      let timer = setInterval(() => this.tick(), this.props.duration);
+      this.setState({timer})
+    }
+    if (nextProps.duration !== this.props.duration
+      && this.props.running
+    ) {
+      clearInterval(nextState.timer)
+      this.setState({timer: null})
+      let timer = setInterval(() => this.tick(), this.props.duration);
+      this.setState({timer})
     }
   }
 
   startGame() {
     this.props.start();
-    let timer = setInterval(() => this.tick(), this.props.duration);
-    this.setState({timer})
   }
 
   tick() {
     this.props.stepGame();
   }
 
+  clearTimer() {
+    clearInterval(this.state.timer);
+  }
+
   pauseGame() {
     this.props.pause();
-    clearInterval(this.state.timer);
   }
 
   render() {
@@ -58,13 +81,15 @@ class TopMenu extends Component {
         <Menu.Item
           name='Reset'
           onClick={() => {
-            this.pauseGame();
             reset();
           }}
         />
         <Menu.Item
           name='Set Random'
-          onClick={() => setRandom()}
+          onClick={() => {
+            this.pauseGame()
+            setRandom()
+          }}
         >
           Randomize Board
         </Menu.Item>

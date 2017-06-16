@@ -6,6 +6,7 @@ const mapStateToProps = (state, ownProps) => ({
   running: state.running,
   gen: state.gen,
   duration: state.duration,
+  cells: state.cells,
 })
 
 const mapDispatchToProps = ({

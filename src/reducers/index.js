@@ -1,5 +1,3 @@
-import store from './index'
-import { step } from '../actions'
 import {
   CHANGE_HEIGHT,
   CHANGE_WIDTH,
@@ -8,8 +6,8 @@ import {
   RESET_GAME,
   STEP_GAME,
   TOGGLE_CELL,
-  CHANGE_SPEED,
   SET_RANDOM,
+  CHANGE_SPEED,
 } from '../actions';
 
 
@@ -116,8 +114,9 @@ const game = (state, action) => {
         gen: 0,
         cells: randomCells({...state.cells})}
     case START_GAME:
-      let timer = setInterval(() => store.dispatch(step()), state.duration)
-      return {...state, running: true, timer: timer}
+      return {...state, running: true}
+    case CHANGE_SPEED:
+      return {...state, duration: action.duration}
     case PAUSE_GAME:
       return {...state, running: false}
     case RESET_GAME:
@@ -152,11 +151,6 @@ const game = (state, action) => {
         gen: 0,
         width: action.width,
         cells: changeSize({height: state.height, width: action.width})
-      }
-    case CHANGE_SPEED:
-      return {
-        ...state,
-        duration: action.duration,
       }
     case TOGGLE_CELL:
       newCells = toggleCell({
