@@ -21,7 +21,15 @@ const game = {
   gen: 0,
   cellSize: DEF_SIZE,
 }
-const cID = (a,b) => `${a}:${b}`
+
+const cID = (r,c,h,w) => {
+  if (r < 0) {r = h - 1}
+  if (r >= h) {r = 0}
+  if (c < 0) {c = w - 1}
+  if (c >= w) {c = 0}
+  return `${r}:${c}`
+}
+
 for (let i = 0; i < DEF_HEIGHT; i ++ ) {
   for (let j = 0; j < DEF_WIDTH; j ++ ) {
     let id = `${i}:${j}`;
@@ -31,14 +39,14 @@ for (let i = 0; i < DEF_HEIGHT; i ++ ) {
       ypos: i,
       nsum: 0,
       neighbors: [
-        cID(i-1,j-1),
-        cID(i,j-1),
-        cID(i+1,j-1),
-        cID(i-1, j),
-        cID(i+1, j),
-        cID(i-1, j+1),
-        cID(i, j+1),
-        cID(i+1, j+1)
+        cID(i-1,j-1, game.height, game.width),
+        cID(i,j-1, game.height, game.width),
+        cID(i+1,j-1, game.height, game.width),
+        cID(i-1, j, game.height, game.width),
+        cID(i+1, j, game.height, game.width),
+        cID(i-1, j+1, game.height, game.width),
+        cID(i, j+1, game.height, game.width),
+        cID(i+1, j+1, game.height, game.width)
       ]
     }
     game.cells[id] = newCell;

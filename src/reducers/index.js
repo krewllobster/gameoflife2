@@ -11,7 +11,6 @@ import {
 } from '../actions';
 
 
-
 const randomCells = (cells) => {
   Object.keys(cells).forEach(id => {
     cells[id] = {...cells[id], alive: Math.random() >= .7}
@@ -31,24 +30,33 @@ const toggleCell = ({cells, id}) => {
   return {...cells}
 }
 
-const cID = (a,b) => `${a}:${b}`;
-const createNeighbors = (r, c) => ([
-  cID(r-1,c-1),
-  cID(r,c-1),
-  cID(r+1,c-1),
-  cID(r-1, c),
-  cID(r+1, c),
-  cID(r-1, c+1),
-  cID(r, c+1),
-  cID(r+1, c+1)
+const cID = (r,c,h,w) => {
+  if (r < 0) {r = h - 1}
+  if (r >= h) {r = 0}
+  if (c < 0) {c = w - 1}
+  if (c >= w) {c = 0}
+  return `${r}:${c}`
+}
+
+const createNeighbors = (r, c, h, w) => ([
+  cID(r-1,c-1, h, w),
+  cID(r,c-1, h, w),
+  cID(r+1,c-1, h, w),
+  cID(r-1, c, h, w),
+  cID(r+1, c, h, w),
+  cID(r-1, c+1, h, w),
+  cID(r, c+1, h, w),
+  cID(r+1, c+1, h, w)
 ])
-const createCell = (r, c) => {
+
+const createCell = (r, c, h, w) => {
+  console.log(`${r}, ${c}, ${h}, ${w}`)
   return {
     alive: false,
     xpos: c,
     ypos: r,
     nsum: 0,
-    neighbors: createNeighbors(r,c),
+    neighbors: createNeighbors(r,c,h,w),
   }
 }
 
@@ -57,7 +65,7 @@ const buildBoard = ({height, width}) => {
   for (let r = 0; r < height; r ++) {
     for (let c = 0; c < width; c ++) {
       let id = cID(r, c);
-      newCells[id] = createCell(r, c);
+      newCells[id] = createCell(r, c, height, width);
     }
   }
   return newCells;
@@ -80,6 +88,7 @@ const setNeighbors = (cells) => {
     if (cell.alive) {
       cell.neighbors.forEach(cellId => {
         let nCell = cells[cellId];
+
         if (nCell) {
           cells[cellId] = {...nCell, nsum: nCell.nsum + 1}
         }

@@ -25,24 +25,26 @@ class Board extends Component {
           {Object.keys(cells).map(id => {
             let cell = cells[id];
             return (
-              <rect
-                key={id}
-                x={cell.xpos * size}
-                y={cell.ypos * size}
-                width={size}
-                height={size}
-                fill={cell.alive ? 'black' : 'white'}
-                stroke='grey'
-                strokeWidth='1'
-                onClick={(e) => {
-                  if (running) {
-                    pause();
-                  }
-                  let targetID =(e.target.y.baseVal.value/15+':'+e.target.x.baseVal.value/15)
-                  toggleCell(targetID);
-                }}
-              >
-              </rect>
+              <g key={id}>
+                <rect
+                  x={cell.xpos * size}
+                  y={cell.ypos * size}
+                  width={size}
+                  height={size}
+                  fill={cell.alive ? 'black' : 'white'}
+                  stroke='grey'
+                  strokeWidth='1'
+                  onClick={(e) => {
+                    if (running) {
+                      pause();
+                    }
+                    let targetID =(e.target.y.baseVal.value/15+':'+e.target.x.baseVal.value/15)
+                    console.log(targetID)
+                    toggleCell(targetID);
+                  }}
+                >
+                </rect>
+              </g>
             )
           })}
         </svg>
