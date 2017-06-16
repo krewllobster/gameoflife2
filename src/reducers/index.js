@@ -1,3 +1,5 @@
+import store from './index'
+import { step } from '../actions'
 import {
   CHANGE_HEIGHT,
   CHANGE_WIDTH,
@@ -9,6 +11,8 @@ import {
   CHANGE_SPEED,
   SET_RANDOM,
 } from '../actions';
+
+
 
 const randomCells = (cells) => {
   Object.keys(cells).forEach(id => {
@@ -112,7 +116,8 @@ const game = (state, action) => {
         gen: 0,
         cells: randomCells({...state.cells})}
     case START_GAME:
-      return {...state, running: true}
+      let timer = setInterval(() => store.dispatch(step()), state.duration)
+      return {...state, running: true, timer: timer}
     case PAUSE_GAME:
       return {...state, running: false}
     case RESET_GAME:

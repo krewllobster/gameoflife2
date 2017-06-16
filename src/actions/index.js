@@ -5,16 +5,16 @@ export const PAUSE_GAME = 'PAUSE_GAME';
 export const RESET_GAME = 'RESET_GAME';
 export const STEP_GAME = 'STEP_GAME';
 export const TOGGLE_CELL = 'TOGGLE_CELL';
-export const CHANGE_SPEED = 'CHANGE_SPEED';
 export const SET_RANDOM = 'SET_RANDOM';
-
-export const setRandom = () => ({
-  type: SET_RANDOM,
-})
+export const CHANGE_SPEED = 'CHANGE_SPEED';
 
 export const changeSpeed = (duration) => ({
   type: CHANGE_SPEED,
   duration,
+})
+
+export const setRandom = () => ({
+  type: SET_RANDOM,
 })
 
 export const changeHeight = (height) => ({
@@ -39,7 +39,7 @@ export const reset = () => ({
   type: RESET_GAME,
 })
 
-export const stepGame = () => ({
+export const step = () => ({
   type: STEP_GAME,
 })
 

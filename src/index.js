@@ -9,8 +9,8 @@ import 'semantic-ui-css/semantic.min.css';
 
 const DEF_HEIGHT = 15;
 const DEF_WIDTH = 15;
-const DEF_DURATION = 200;
 const DEF_SIZE = 15;
+const DEF_DURATION = 200;
 
 const game = {
   height: DEF_HEIGHT,
@@ -20,6 +20,7 @@ const game = {
   cells: {},
   gen: 0,
   cellSize: DEF_SIZE,
+  timer: null,
 }
 const cID = (a,b) => `${a}:${b}`
 for (let i = 0; i < DEF_HEIGHT; i ++ ) {
@@ -69,3 +70,5 @@ render(
 if (module.hot) {
   module.hot.accept()
 }
+
+export default store;

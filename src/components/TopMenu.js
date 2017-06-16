@@ -4,19 +4,11 @@ import { Menu } from 'semantic-ui-react';
 class TopMenu extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      timer: null,
-    }
-
-    this.startGame = this.startGame.bind(this);
-    this.pauseGame = this.pauseGame.bind(this);
-    this.tick = this.tick.bind(this);
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    if (!nextProps.running && nextState.timer) {
-      clearInterval(this.state.timer);
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.running) {
+      setTimeout(this.props.stepGame(), this.props.duration)
     }
   }
 
@@ -41,7 +33,7 @@ class TopMenu extends Component {
       setRandom,
       reset,
       running,
-      gen
+      gen,
     } = this.props;
 
     return (
