@@ -34,15 +34,15 @@ class BotMenu extends Component {
             <input
               id = 'height'
               type='range'
-              min='0'
-              max='30'
+              min='5'
+              max='100'
               step='5'
               defaultValue={height}
               onChange={(e) => {
                 this.setState({height: e.target.value})
-                changeHeight(e.target.value);
+                //changeHeight(e.target.value);
               }}
-              //onMouseUp={(e) => changeHeight(e.target.value)}
+              onMouseUp={(e) => changeHeight(e.target.value)}
             />
             <span style={{paddingLeft: '5px'}}>{this.state.height}</span>
           </Menu.Item>
@@ -53,12 +53,15 @@ class BotMenu extends Component {
             <input
               id = 'width'
               type='range'
-              min='0'
-              max='50'
+              min='5'
+              max='100'
               step='5'
               defaultValue={width}
               onChange={(e) => {
                 this.setState({width: e.target.value})
+                //changeWidth(e.target.value);
+              }}
+              onMouseUp={(e) => {
                 changeWidth(e.target.value);
               }}
               //onMouseUp={(e) => changeWidth(e.target.value)}
@@ -79,8 +82,9 @@ class BotMenu extends Component {
               defaultValue={duration}
               onChange={(e) => {
                 this.setState({speed: e.target.value});
-                changeSpeed(e.target.value);
+                //changeSpeed(e.target.value);
               }}
+              onMouseUp={(e) => changeSpeed(e.target.value)}
             />
             <span style={{paddingLeft: '5px'}}>{this.props.duration} ms</span>
           </Menu.Item>
