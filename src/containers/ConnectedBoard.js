@@ -7,7 +7,6 @@ const mapStateToProps = (state, ownProps) => ({
   width: state.width,
   size: state.cellSize,
   cells: state.cells,
-  running: state.running,
   gen: state.gen,
 })
 

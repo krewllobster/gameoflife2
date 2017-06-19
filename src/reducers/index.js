@@ -8,6 +8,8 @@ import {
   TOGGLE_CELL,
   SET_RANDOM,
   CHANGE_SPEED,
+  RESET_START,
+  TOGGLE_SIDE,
 } from '../actions';
 
 
@@ -50,7 +52,6 @@ const createNeighbors = (r, c, h, w) => ([
 ])
 
 const createCell = (r, c, h, w) => {
-  console.log(`${r}, ${c}, ${h}, ${w}`)
   return {
     alive: false,
     xpos: c,
@@ -88,10 +89,7 @@ const setNeighbors = (cells) => {
     if (cell.alive) {
       cell.neighbors.forEach(cellId => {
         let nCell = cells[cellId];
-
-        if (nCell) {
-          cells[cellId] = {...nCell, nsum: nCell.nsum + 1}
-        }
+        cells[cellId] = {...nCell, nsum: nCell.nsum + 1}
       })
     }
   })
@@ -116,12 +114,19 @@ const stepGame = ({cells}) => {
 const game = (state, action) => {
   let newCells = {}
   switch (action.type) {
+    case TOGGLE_SIDE:
+      return {...state, sideVisible: !state.sideVisible}
+    case RESET_START:
+      return {...state, cells: {...state.startCells}, gen: 0, running: false}
     case SET_RANDOM:
+      newCells = randomCells(state.cells);
       return {
         ...state,
         running: false,
         gen: 0,
-        cells: randomCells({...state.cells})}
+        cells: newCells,
+        startCells: newCells,
+      }
     case START_GAME:
       return {...state, running: true}
     case CHANGE_SPEED:
@@ -129,11 +134,13 @@ const game = (state, action) => {
     case PAUSE_GAME:
       return {...state, running: false}
     case RESET_GAME:
+      newCells = resetBoard(state.cells);
       return {
         ...state,
         gen: 0,
         running: false,
-        cells: resetBoard(state.cells),
+        cells: newCells,
+        startCells: newCells,
       };
     case STEP_GAME:
       newCells = stepGame({
@@ -146,27 +153,37 @@ const game = (state, action) => {
         cells: newCells,
       };
     case CHANGE_HEIGHT:
+      newCells = changeSize({height: action.height, width: state.width});
       return {
         ...state,
         running: false,
         gen: 0,
         height: action.height,
-        cells: changeSize({height: action.height, width: state.width})
+        cells: newCells,
+        startCells: newCells,
       }
     case CHANGE_WIDTH:
+      newCells = changeSize({height: state.height, width: action.width});
       return {
         ...state,
         running: false,
         gen: 0,
         width: action.width,
-        cells: changeSize({height: state.height, width: action.width})
+        cells: newCells,
+        startCells: newCells,
       }
     case TOGGLE_CELL:
       newCells = toggleCell({
         cells: {...state.cells},
         id: action.id,
       });
-      return {...state, cells: newCells};
+      return {
+        ...state,
+        cells: newCells,
+        startCells: newCells,
+        gen: 0,
+        running: false,
+      };
     default:
       return state;
   }

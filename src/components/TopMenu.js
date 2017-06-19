@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu } from 'semantic-ui-react';
+import { Menu, Icon, SideBar } from 'semantic-ui-react';
 
 class TopMenu extends Component {
   constructor(props) {
@@ -11,24 +11,21 @@ class TopMenu extends Component {
 
     this.startGame = this.startGame.bind(this);
     this.tick = this.tick.bind(this);
-    this.clearTimer = this.clearTimer.bind(this);
     this.pauseGame = this.pauseGame.bind(this);
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    if (this.props.running && !nextProps.running) {
-      clearInterval(nextState.timer)
-      nextState.timer = null;
+  componentWillReceiveProps(nextProps, nextState) {
+    const { running, duration } = this.props;
+    if (running && !nextProps.running) {
+      clearInterval(this.state.timer);
+      this.setState({timer: null});
     }
-    if (!this.props.running && nextProps.running) {
-      let timer = setInterval(() => this.tick(), this.props.duration);
+    if (!running && nextProps.running) {
+      let timer = setInterval(() => this.tick(), duration);
       this.setState({timer})
     }
-    if (nextProps.duration !== this.props.duration
-      && this.props.running
-    ) {
-      clearInterval(nextState.timer)
-      this.setState({timer: null})
+    if (running && duration !== nextProps.duration) {
+      clearInterval(this.state.timer)
       let timer = setInterval(() => this.tick(), this.props.duration);
       this.setState({timer})
     }
@@ -42,10 +39,6 @@ class TopMenu extends Component {
     this.props.stepGame();
   }
 
-  clearTimer() {
-    clearInterval(this.state.timer);
-  }
-
   pauseGame() {
     this.props.pause();
   }
@@ -55,18 +48,28 @@ class TopMenu extends Component {
       stepGame,
       setRandom,
       reset,
+      resetStart,
       running,
+      toggleSide,
       gen,
     } = this.props;
 
     return (
-      <Menu stackable widths={4}>
+      <Menu stackable widths={6}>
+        <Menu.Item
+          name='presets'
+          onClick={() => toggleSide()}
+        >
+          <Icon name='content'/>
+          Presets
+        </Menu.Item>
         <Menu.Item
           name='runControl'
           onClick={() => {
             running ? this.pauseGame() : this.startGame()
           }}
         >
+          {running ? <Icon name='pause' /> : <Icon name='play' />}
           {running ? 'Pause' : 'Run'}
         </Menu.Item>
         <Menu.Item
@@ -76,10 +79,18 @@ class TopMenu extends Component {
             stepGame();
           }}
         >
-          {`Step Generation (current: ${gen})`}
+          {`Step (Current Gen: ${gen})`}
         </Menu.Item>
         <Menu.Item
           name='Reset'
+          onClick={() => {
+            resetStart();
+          }}
+        >
+          <Icon name='refresh' /> Reset
+        </Menu.Item>
+        <Menu.Item
+          name='Clear Board'
           onClick={() => {
             reset();
           }}

@@ -20,6 +20,8 @@ const game = {
   cells: {},
   gen: 0,
   cellSize: DEF_SIZE,
+  startCells: {},
+  sideVisible: false,
 }
 
 const cID = (r,c,h,w) => {
@@ -52,6 +54,8 @@ for (let i = 0; i < DEF_HEIGHT; i ++ ) {
     game.cells[id] = newCell;
   }
 }
+
+game.startCells = game.cells;
 
 Object.keys(game.cells).forEach(id => {
   let cell = game.cells[id];

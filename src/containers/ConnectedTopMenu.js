@@ -1,5 +1,13 @@
 import { connect } from 'react-redux';
-import { start, pause, step, reset, setRandom } from '../actions';
+import {
+  start,
+  pause,
+  step,
+  reset,
+  setRandom,
+  resetStart,
+  toggleSide,
+} from '../actions';
 import TopMenu from '../components/TopMenu'
 
 const mapStateToProps = (state, ownProps) => ({
@@ -15,6 +23,8 @@ const mapDispatchToProps = ({
   stepGame: step,
   reset: reset,
   setRandom: setRandom,
+  resetStart: resetStart,
+  toggleSide: toggleSide,
 })
 
 const ConnectedTopMenu = connect(mapStateToProps, mapDispatchToProps)(TopMenu)

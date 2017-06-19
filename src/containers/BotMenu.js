@@ -39,8 +39,9 @@ class BotMenu extends Component {
               step='5'
               defaultValue={height}
               onChange={(e) => {
-                this.setState({height: e.target.value})
-                changeHeight(e.target.value);
+                let newHeight = parseInt(e.target.value, 10)
+                this.setState({height: newHeight})
+                changeHeight(newHeight);
               }}
               //onMouseUp={(e) => changeHeight(e.target.value)}
             />
@@ -58,8 +59,9 @@ class BotMenu extends Component {
               step='5'
               defaultValue={width}
               onChange={(e) => {
-                this.setState({width: e.target.value})
-                changeWidth(e.target.value);
+                let newWidth = parseInt(e.target.value, 10)
+                this.setState({width: newWidth})
+                changeWidth(newWidth);
               }}
               //onMouseUp={(e) => changeWidth(e.target.value)}
             />
@@ -78,8 +80,9 @@ class BotMenu extends Component {
               max='1000'
               defaultValue={duration}
               onChange={(e) => {
-                this.setState({speed: e.target.value});
-                changeSpeed(e.target.value);
+                let newSpeed = parseInt(e.target.value, 10)
+                this.setState({speed: newSpeed});
+                changeSpeed(newSpeed);
               }}
             />
             <span style={{paddingLeft: '5px'}}>{this.props.duration} ms</span>

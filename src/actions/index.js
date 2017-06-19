@@ -7,6 +7,16 @@ export const STEP_GAME = 'STEP_GAME';
 export const TOGGLE_CELL = 'TOGGLE_CELL';
 export const SET_RANDOM = 'SET_RANDOM';
 export const CHANGE_SPEED = 'CHANGE_SPEED';
+export const RESET_START = 'RESET_START';
+export const TOGGLE_SIDE = 'TOGGLE_SIDE';
+
+export const toggleSide = () => ({
+  type: TOGGLE_SIDE,
+})
+
+export const resetStart = () => ({
+  type: RESET_START,
+})
 
 export const changeSpeed = (duration) => ({
   type: CHANGE_SPEED,

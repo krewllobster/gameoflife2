@@ -2,15 +2,22 @@ import React, { Component } from 'react';
 
 class Board extends Component {
 
+  componentWillReceiveProps(nextProps) {
+    if (
+      this.props.gen !== nextProps.gen &&
+      JSON.stringify(this.props.cells) === JSON.stringify(nextProps.cells)
+    ) {
+      this.props.pause();
+    }
+  }
+
   render () {
     const {
       height,
       width,
       size,
       cells,
-      toggleCell,
-      running,
-      pause,
+      toggleCell
     } = this.props
 
     const boardContainerStyle = {
@@ -35,11 +42,7 @@ class Board extends Component {
                   stroke='grey'
                   strokeWidth='1'
                   onClick={(e) => {
-                    if (running) {
-                      pause();
-                    }
                     let targetID =(e.target.y.baseVal.value/15+':'+e.target.x.baseVal.value/15)
-                    console.log(targetID)
                     toggleCell(targetID);
                   }}
                 >
