@@ -7,6 +7,7 @@ import SideMenu from '../components/SideMenu'
 
 const mapStateToProps = (state, ownProps) => ({
   sideVisible: state.sideVisible,
+  presets: state.presets,
 })
 
 const mapDispatchToProps = ({

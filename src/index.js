@@ -6,6 +6,7 @@ import reducer from './reducers';
 import { App } from './components/App';
 import './index.css';
 import 'semantic-ui-css/semantic.min.css';
+import { presets } from './data/Presets';
 
 const DEF_HEIGHT = 15;
 const DEF_WIDTH = 15;
@@ -69,7 +70,19 @@ Object.keys(game.cells).forEach(id => {
   }
 })
 
-const store = createStore(reducer, game);
+let storedPresets = JSON.parse(localStorage.getItem('presets_gameoflife'))
+
+if (storedPresets) {
+  console.log('presets found')
+  game.presets = storedPresets
+}
+if (!storedPresets) {
+  console.log('no presets')
+  localStorage.setItem('presets_gameoflife', JSON.stringify(presets))
+  game.presets = presets
+}
+
+const store = createStore(reducer, game, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 render(
   <Provider store={store}>
