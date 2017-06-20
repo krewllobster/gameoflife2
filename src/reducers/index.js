@@ -148,7 +148,6 @@ const game = (state, action) => {
       });
       return {
         ...state,
-        paused: true,
         gen: state.gen + 1,
         cells: newCells,
       };

@@ -1,6 +1,15 @@
-export const setBoard = (h, w, preset = []) => {
+export const setBoard = (h, w, grid = [[]]) => {
 
   let cells = {}
+  let alive = []
+
+  grid.forEach((row, y) => {
+    row.forEach((item, x) => {
+      if (item === 1) {
+        alive.push(`${y}:${x}`)
+      }
+    })
+  })
 
   const cID = (r,c,h,w) => {
     if (r < 0) {r = h - 1}
@@ -14,7 +23,7 @@ export const setBoard = (h, w, preset = []) => {
     for (let j = 0; j < w; j ++ ) {
       let id = `${i}:${j}`;
       let newCell = {
-        alive: preset.includes(id) ? true : false,
+        alive: alive.includes(id) ? true : false,
         xpos: j,
         ypos: i,
         nsum: 0,

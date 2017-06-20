@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { changeHeight, changeWidth, changeSpeed } from '../actions';
+import { changeHeight, changeWidth, changeSpeed, pause } from '../actions';
 import { Menu } from 'semantic-ui-react';
 
 class BotMenu extends Component {
@@ -34,11 +34,12 @@ class BotMenu extends Component {
             <input
               id = 'height'
               type='range'
-              min='0'
-              max='30'
-              step='5'
+              min='10'
+              max='40'
+              step='1'
               defaultValue={height}
               onChange={(e) => {
+                this.props.pause()
                 let newHeight = parseInt(e.target.value, 10)
                 this.setState({height: newHeight})
                 changeHeight(newHeight);
@@ -54,11 +55,12 @@ class BotMenu extends Component {
             <input
               id = 'width'
               type='range'
-              min='0'
-              max='50'
-              step='5'
+              min='10'
+              max='60'
+              step='1'
               defaultValue={width}
               onChange={(e) => {
+                this.props.pause()
                 let newWidth = parseInt(e.target.value, 10)
                 this.setState({width: newWidth})
                 changeWidth(newWidth);
@@ -113,6 +115,7 @@ const mapDispatchToProps = ({
   changeHeight: changeHeight,
   changeWidth: changeWidth,
   changeSpeed: changeSpeed,
+  pause: pause,
 })
 
 export default connect(

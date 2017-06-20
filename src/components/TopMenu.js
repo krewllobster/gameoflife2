@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu, Icon, SideBar } from 'semantic-ui-react';
+import { Menu, Icon } from 'semantic-ui-react';
 
 class TopMenu extends Component {
   constructor(props) {
@@ -9,14 +9,12 @@ class TopMenu extends Component {
       timer: null
     }
 
-    this.startGame = this.startGame.bind(this);
     this.tick = this.tick.bind(this);
-    this.pauseGame = this.pauseGame.bind(this);
   }
 
   componentWillReceiveProps(nextProps, nextState) {
     const { running, duration } = this.props;
-    if (running && !nextProps.running) {
+    if (!nextProps.running) {
       clearInterval(this.state.timer);
       this.setState({timer: null});
     }
@@ -31,16 +29,8 @@ class TopMenu extends Component {
     }
   }
 
-  startGame() {
-    this.props.start();
-  }
-
   tick() {
     this.props.stepGame();
-  }
-
-  pauseGame() {
-    this.props.pause();
   }
 
   render() {
@@ -52,10 +42,12 @@ class TopMenu extends Component {
       running,
       toggleSide,
       gen,
+      pause,
+      start,
     } = this.props;
 
     return (
-      <Menu stackable widths={6}>
+      <Menu widths={6}>
         <Menu.Item
           name='presets'
           onClick={() => toggleSide()}
@@ -66,7 +58,7 @@ class TopMenu extends Component {
         <Menu.Item
           name='runControl'
           onClick={() => {
-            running ? this.pauseGame() : this.startGame()
+            running ? pause() : start()
           }}
         >
           {running ? <Icon name='pause' /> : <Icon name='play' />}
@@ -75,11 +67,11 @@ class TopMenu extends Component {
         <Menu.Item
           name='step'
           onClick={() => {
-            this.pauseGame();
+            pause();
             stepGame();
           }}
         >
-          {`Step (Current Gen: ${gen})`}
+          <Icon name='arrow right' /> {`(Gen: ${gen})`}
         </Menu.Item>
         <Menu.Item
           name='Reset'
@@ -98,11 +90,10 @@ class TopMenu extends Component {
         <Menu.Item
           name='Set Random'
           onClick={() => {
-            this.pauseGame()
             setRandom()
           }}
         >
-          Randomize Board
+          Randomize
         </Menu.Item>
       </Menu>
     )

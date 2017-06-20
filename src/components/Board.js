@@ -21,33 +21,42 @@ class Board extends Component {
     } = this.props
 
     const boardContainerStyle = {
-      height: '465px',
-      width: width*size,
-      margin: 'auto'
+      width: '100%',
+      padding: 'auto',
+      marginBottome: '10px'
+    }
+
+    const svgStyle = {
+      width: '100%',
+      height: '70vh',
+      padding: '20px',
     }
 
     return (
-      <div className='board-container' style={boardContainerStyle}>
-        <svg width={width*size} height={height*size} version="1.1" xmlns="http:/www.w3.org/2000/svg">
+      <div style={boardContainerStyle}>
+        <svg
+          style={svgStyle}
+          viewBox={`0 0 ${width} ${height}`}
+          version="1.1"
+          xmlns="http:/www.w3.org/2000/svg"
+        >
           {Object.keys(cells).map(id => {
             let cell = cells[id];
             return (
-              <g key={id}>
-                <rect
-                  x={cell.xpos * size}
-                  y={cell.ypos * size}
-                  width={size}
-                  height={size}
-                  fill={cell.alive ? 'black' : 'white'}
-                  stroke='grey'
-                  strokeWidth='1'
-                  onClick={(e) => {
-                    let targetID =(e.target.y.baseVal.value/15+':'+e.target.x.baseVal.value/15)
-                    toggleCell(targetID);
-                  }}
-                >
-                </rect>
-              </g>
+              <rect
+                x={cell.xpos}
+                y={cell.ypos}
+                width={1}
+                height={1}
+                fill={cell.alive ? 'black' : 'white'}
+                stroke='grey'
+                strokeWidth='0.05'
+                onClick={(e) => {
+                  let targetID =(cell.ypos+':'+cell.xpos)
+                  toggleCell(targetID);
+                }}
+              >
+              </rect>
             )
           })}
         </svg>

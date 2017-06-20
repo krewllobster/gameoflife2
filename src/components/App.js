@@ -11,7 +11,11 @@ export class App extends Component {
 
     return (
       <Container fluid>
-        <ConnectedSideMenu />
+        <ConnectedSideMenu>
+          <ConnectedTopMenu />
+          <ConnectedBoard />
+          <BotMenu />
+        </ConnectedSideMenu>
       </Container>
     );
   }
