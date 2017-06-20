@@ -33,18 +33,5 @@ export const setBoard = (h, w, preset = []) => {
     }
   }
 
-  const setNeighbors = (cells) => {
-    Object.keys(cells).forEach(id => {
-      let cell = cells[id];
-      if (cell.alive) {
-        cell.neighbors.forEach(cellId => {
-          let nCell = cells[cellId];
-          cells[cellId] = {...nCell, nsum: nCell.nsum + 1}
-        })
-      }
-    })
-    return cells;
-  }
-
-  return setNeighbors(cells);
+  return cells;
 }

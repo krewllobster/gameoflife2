@@ -72,15 +72,15 @@ Object.keys(game.cells).forEach(id => {
 
 let storedPresets = JSON.parse(localStorage.getItem('presets_gameoflife'))
 
-if (storedPresets) {
+/*if (storedPresets) {
   console.log('presets found')
   game.presets = storedPresets
-}
-if (!storedPresets) {
+}*/
+//if (!storedPresets) {
   console.log('no presets')
   localStorage.setItem('presets_gameoflife', JSON.stringify(presets))
   game.presets = presets
-}
+//}
 
 const store = createStore(reducer, game, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 

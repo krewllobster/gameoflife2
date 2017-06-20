@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Sidebar, Segment, Menu, Icon, Button } from 'semantic-ui-react';
+import { Container, Sidebar, Segment, Menu, Icon, Button, Grid } from 'semantic-ui-react';
 import ConnectedTopMenu from '../containers/ConnectedTopMenu';
 import BotMenu from '../containers/BotMenu';
 import ConnectedBoard from '../containers/ConnectedBoard';
@@ -27,14 +27,25 @@ class SideMenu extends Component {
           <Menu.Item header>
             Select a preset, or save your own!
           </Menu.Item>
-          {presets.map(preset => {
-            return (
-              <Menu.Item onClick={() => console.log(preset.cells)}>
-                {preset.name}: h:{preset.height} w:{preset.width}
-                <PreviewSVG preset={preset} />
-              </Menu.Item>
-            )
-          })}
+          <Grid as='Menu.Item' celled='internally' stackable>
+            {presets.map(preset => {
+              return (
+                <Grid.Row
+                  textAlign={'center'}
+                  verticalAlign={'middle'}
+                  columns={'equal'}
+                  onClick={(e) => console.log(preset)}
+                >
+                  <Grid.Column>
+                    {preset.name}
+                  </Grid.Column>
+                  <Grid.Column fitted>
+                    <PreviewSVG preset={preset} style={{height: '100%'}}/>
+                  </Grid.Column>
+                </Grid.Row>
+              )
+            })}
+          </Grid>
         </Sidebar>
         <Sidebar.Pusher>
           <ConnectedTopMenu />
